@@ -1,0 +1,59 @@
+name: Bump codex-app-manager manifest
+
+# Keeps bucket/codex-app-manager.json in sync with the latest stable release of
+# Wangnov/Codex-App-Manager. Reads the public release + the NSIS installer with
+# the default GITHUB_TOKEN (no extra secret), recomputes the hash, and commits.
+
+on:
+  schedule:
+    - cron: "37 */6 * * *"   # every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bump-codex-app-manager
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump manifest if a newer release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPSTREAM: Wangnov/Codex-App-Manager
+        run: |
+          set -euo pipefail
+          m="bucket/codex-app-manager.json"
+
+          latest="$(gh release view --repo "$UPSTREAM" --json tagName --jq .tagName)"
+          ver="${latest#v}"
+          cur="$(jq -r .version "$m")"
+          echo "current=$cur latest=$ver"
+          if [ "$ver" = "$cur" ]; then
+            echo "manifest already at $ver — nothing to do"
+            exit 0
+          fi
+
+          asset="CodexAppManager_${ver}_x64-setup.exe"
+          tmp="$(mktemp -d)"
+          gh release download "$latest" --repo "$UPSTREAM" -p "$asset" -D "$tmp"
+          hash="$(sha256sum "$tmp/$asset" | awk '{print $1}')"
+          url="https://github.com/${UPSTREAM}/releases/download/v${ver}/${asset}#/dl.7z"
+
+          jq --arg v "$ver" --arg h "$hash" --arg u "$url" \
+            '.version=$v | .architecture."64bit".hash=$h | .architecture."64bit".url=$u' \
+            "$m" > "$m.tmp" && mv "$m.tmp" "$m"
+
+          jq -e '.version=="'"$ver"'" and .architecture."64bit".hash=="'"$hash"'"' "$m" >/dev/null
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$m"
+          git commit -m "codex-app-manager: ${cur} -> ${ver}"
+          git push
+          echo "✓ bumped codex-app-manager ${cur} -> ${ver}"
