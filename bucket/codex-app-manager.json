@@ -1,30 +1,30 @@
 {
-    "version": "0.1.9",
-    "description": "Installer, updater, and uninstaller for the official Codex desktop app (with built-in self-update)",
-    "homepage": "https://github.com/Wangnov/Codex-App-Manager",
-    "license": "MIT",
-    "architecture": {
-        "64bit": {
-            "url": "https://github.com/Wangnov/Codex-App-Manager/releases/download/v0.1.9/CodexAppManager_0.1.9_x64-setup.exe#/dl.7z",
-            "hash": "fd40f6d9bc28becad5ed400f7efff6a11b275ca7d4b2142bb6967e58f03119b1"
-        }
-    },
-    "pre_install": [
-        "Remove-Item \"$dir\\`$PLUGINSDIR\" -Recurse -Force -ErrorAction SilentlyContinue"
-    ],
-    "bin": "codex-app-manager.exe",
-    "shortcuts": [
-        [
-            "codex-app-manager.exe",
-            "Codex App Manager"
-        ]
-    ],
-    "checkver": "github",
-    "autoupdate": {
-        "architecture": {
-            "64bit": {
-                "url": "https://github.com/Wangnov/Codex-App-Manager/releases/download/v$version/CodexAppManager_$version_x64-setup.exe#/dl.7z"
-            }
-        }
+  "version": "0.1.10",
+  "description": "Installer, updater, and uninstaller for the official Codex desktop app (with built-in self-update)",
+  "homepage": "https://github.com/Wangnov/Codex-App-Manager",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/Wangnov/Codex-App-Manager/releases/download/v0.1.10/CodexAppManager_0.1.10_x64-setup.exe#/dl.7z",
+      "hash": "75705f3ff9f1fcac5adf118618edae8babcf32f3c73109b434f69608ee506c02"
     }
+  },
+  "pre_install": [
+    "Remove-Item \"$dir\\`$PLUGINSDIR\" -Recurse -Force -ErrorAction SilentlyContinue"
+  ],
+  "bin": "codex-app-manager.exe",
+  "shortcuts": [
+    [
+      "codex-app-manager.exe",
+      "Codex App Manager"
+    ]
+  ],
+  "checkver": "github",
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/Wangnov/Codex-App-Manager/releases/download/v$version/CodexAppManager_$version_x64-setup.exe#/dl.7z"
+      }
+    }
+  }
 }
