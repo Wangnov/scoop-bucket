@@ -1,12 +1,12 @@
 {
-  "version": "0.5.9",
+  "version": "0.5.10",
   "description": "Installer, updater, and uninstaller for the official Codex desktop app (with built-in self-update)",
   "homepage": "https://github.com/Wangnov/Codex-App-Manager",
   "license": "MIT",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/Wangnov/Codex-App-Manager/releases/download/v0.5.9/CodexAppManager_0.5.9_x64-setup.exe#/dl.7z",
-      "hash": "b9aecbee22af96b64f58b39a80c16eb14f4a74cad58c87a8c5468c4ec7c7f764"
+      "url": "https://github.com/Wangnov/Codex-App-Manager/releases/download/v0.5.10/CodexAppManager_0.5.10_x64-setup.exe#/dl.7z",
+      "hash": "996fe75887a5d4fe5848bd4205ca1c73296be746b9ae686aba1f16fcadb8fd8e"
     }
   },
   "pre_install": [
